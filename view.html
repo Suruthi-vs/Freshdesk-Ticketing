@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Freshddesk</title>
+</head>
+<body>
+    <div class="container1">
+        
+        <a href="view.html">View Ticket</a>
+        <a href="tickets.html">New Ticket</a>
+        <a href="index.html">Dashboard</a>
+    </div>
+    <div class="container2">
+        <div id="tab">
+            <table class="table table-striped" id="table">
+             <tr>
+              <thead>
+               <th>Id</th>
+               <th>Subject</th>
+               <th>Status</th>
+               <th>Priority</th>
+            </thead>
+          </tr>
+    </table>
+    
+    </div>
+    </div>
+    <script>
+        fetch("https://suruthisuji13.freshdesk.com/api/v2/tickets", {
+            headers: {
+                "Authorization": "Basic " + btoa("LIzofDrv56UJdEllUc60" + ":" + "x"),
+            },
+            })
+        .then((res)=> {return res.json()})
+        .then((el)=>{
+        var a=[]
+        a=el;
+        if(a.length>0){
+        var tb1=document.getElementById("table");
+        console.log(a);
+        var sta={
+        2:"Open",
+        3:"Pending",
+        4:"Resolved",
+        5:"closed"
+        };
+        var pri={
+        1:"Low",
+        2:"Medium",
+        3:"High",
+        4:"Urgent"
+        };
+        for(var i=0;i<a.length;i++){
+        var row1=tb1.insertRow();
+        var cel1=row1.insertCell(0);
+        var cel2=row1.insertCell(1);
+        var cel3=row1.insertCell(2);
+        var cel4=row1.insertCell(3);
+        cel1.innerHTML=a[i].id;
+        cel2.innerHTML=a[i].subject;
+        cel3.innerHTML=sta[a[i].status];
+        cel4.innerHTML=pri[a[i].priority];
+        }
+        
+        }
+        else{
+        alert("No tickets to display");
+        
+        }
+        })
+        .catch(error=>{
+        alert(`facing some issued please try again issue is ${error}`);
+        });
+        
+        
+        </script>
+</body>
+</html>
